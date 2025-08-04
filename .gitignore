@@ -6606,6 +6606,7 @@ venv/Lib/site-packages/django/contrib/sites/migrations/__pycache__/__init__.cpyt
 venv/Lib/site-packages/django/contrib/sites/migrations/__pycache__/0001_initial.cpython-311.pyc
 venv/Lib/site-packages/django/contrib/sites/migrations/__pycache__/0002_alter_domain_unique.cpython-311.pyc
 venv/Lib/site-packages/django/contrib/staticfiles/__init__.py
+staticfiles/
 venv/Lib/site-packages/django/contrib/staticfiles/apps.py
 venv/Lib/site-packages/django/contrib/staticfiles/checks.py
 venv/Lib/site-packages/django/contrib/staticfiles/finders.py
