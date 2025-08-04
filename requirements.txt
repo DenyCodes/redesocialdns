@@ -51,3 +51,6 @@ tzdata==2024.1
 urllib3==2.2.1
 virtualenv==20.26.2
 django-crispy-forms
+crispy-bootstrap4
+django-debug-toolbar
+django-extensions
