@@ -7,7 +7,7 @@ SECRET_KEY = "django-insecure-on4$51^(63-(8cfl!#=jpak^g!r6tgcm74^)t$yiys7-^w_^-i
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'redesocialdns.railway.internal', '.railway.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'postgresql://postgres:lgTAlCVcEIkKxcGdldKeSOGVcglpytop@postgres.railway.internal:5432/railway', '.railway.app']
 
 INSTALLED_APPS = [
     "django.contrib.admin",
