@@ -56,4 +56,5 @@ django-debug-toolbar
 django-extensions
 psycopg2-binary
 dj-database-url
+gunicorn
 
