@@ -56,16 +56,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "social.wsgi.application"
 
+import dj_database_url
+import os
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        'USER': 'denisdev',
-        'PASSWORD': 'Denis5197148',
-        'HOST': 'denisdev.mysql.pythonanywhere-services.com',
-        'PORT': '3306',
-    }
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {

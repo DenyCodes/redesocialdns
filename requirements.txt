@@ -54,4 +54,6 @@ django-crispy-forms
 crispy-bootstrap4
 django-debug-toolbar
 django-extensions
-mysqlclient
+psycopg2-binary
+dj-database-url
+
