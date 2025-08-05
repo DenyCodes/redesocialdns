@@ -1,12 +1,39 @@
-<!-- templates/account/signup.html -->
 {% extends "base.html" %}
 
+{% block title %}Cadastro{% endblock %}
+{$ load }
 {% block content %}
-<div class="container">
-    <form method="post" action="{% url 'account_signup' %}" class="form">
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 70vh;">
+  <div class="card shadow" style="width: 100%; max-width: 430px;">
+    <div class="card-body">
+      <h2 class="card-title mb-4 text-center">Criar Conta</h2>
+      <form method="post" action="{% url 'account_signup' %}">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Cadastre-se</button>
-    </form>
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger">
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+        {% for field in form %}
+          <div class="mb-3">
+    <label for="{{ field.id_for_label }}">
+      {% if field.name == 'username' %}Usuário{% elif field.name == 'email' %}E-mail{% elif field.name == 'password1' %}Senha{% elif field.name == 'password2' %}Confirme a senha{% else %}{{ field.label }}{% endif %}
+    </label>
+    {{ field }}
+    {% if field.errors %}
+      <div class="text-danger small">{{ field.errors }}</div>
+    {% endif %}
+  </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+      </form>
+      <div class="mt-3 text-center">
+        <small>
+          Já tem conta?
+          <a href="{% url 'account_login' %}">Entrar</a>
+        </small>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

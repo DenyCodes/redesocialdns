@@ -1,12 +1,38 @@
-{% extends 'base.html' %}
-
-{% block title %}Create Tweet{% endblock %}
+{% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-    <h2>Create a new tweet</h2>
-    <form method="post">
-        {% csrf_token %}
-        <textarea name="content" rows="4" cols="50" required></textarea><br>
-        <button type="submit">Tweet</button>
-    </form>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-lg">
+        <div class="card-body p-4">
+          <h4 class="mb-4 text-center">
+            <i class="bi bi-pencil-square me-2"></i> Nova Postagem
+          </h4>
+          <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="content" class="form-label">Conteúdo</label>
+              <textarea id="content" name="content" class="form-control" rows="4" placeholder="O que você está pensando?">{{ form.content.value|default_if_none:'' }}</textarea>
+              {% if form.content.errors %}
+                <div class="text-danger small mt-1">
+                  {{ form.content.errors.as_text }}
+                </div>
+              {% endif %}
+            </div>
+            <div class="d-flex justify-content-between">
+              <a href="{% url 'feed' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Voltar
+              </a>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-send"></i> Postar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'crispy_bootstrap4',
+    'widget_tweaks'
 ]
 
 MIDDLEWARE = [
@@ -69,9 +70,22 @@ WSGI_APPLICATION = "social.wsgi.application"
 import dj_database_url
 import os
 
-DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
-}
+import dj_database_url
+
+if os.environ.get('DATABASE_URL'):
+    # Railway/produção
+    DATABASES = {
+        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+    }
+else:
+    # Local (usa SQLite por padrão)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -89,7 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "PT-br"
 
 TIME_ZONE = "UTC"
 
@@ -99,8 +113,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-# STATICFILES_DIRS = [BASE_DIR / "static"]
-
+STATICFILES_DIRS = [BASE_DIR / 'social' / 'static']
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 

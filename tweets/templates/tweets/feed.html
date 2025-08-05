@@ -1,17 +1,81 @@
-{% extends 'base.html' %}
-
-{% block title %}Feed{% endblock %}
+{% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-    <h2>Your Feed</h2>
-    {% if tweets %}
-        {% for tweet in tweets %}
-            <div class="tweet">
-                <p><a href="{% url 'user_profile' tweet.user.username %}"><strong>{{ tweet.user.username }}</strong></a>: {{ tweet.content }}</p>
-                <p><em>{{ tweet.created_at }}</em></p>
+<div class="container py-4">
+  <div class="row">
+    <!-- Sidebar esquerda -->
+    <div class="col-lg-3 mb-4 d-none d-lg-block">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          <img src="{% static 'img/default-avatar.png' %}" class="rounded-circle mb-2" width="80" alt="Avatar">
+          <h5 class="card-title mb-0">{{ user.username }}</h5>
+          <div class="small text-muted">@{{ user.email }}</div>
+          <hr>
+          <a href="{% url 'user_profile' user.username %}" class="btn btn-outline-primary btn-sm w-100 mb-2">Ver perfil</a>
+          <a href="{% url 'create_tweet' %}" class="btn btn-primary btn-sm w-100">Novo Post</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feed central -->
+    <div class="col-lg-6">
+      <!-- Campo de nova postagem -->
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <form method="post" action="{% url 'create_tweet' %}">
+            {% csrf_token %}
+            <div class="mb-2">
+              <textarea name="content" class="form-control" placeholder="O que você está pensando?" rows="2"></textarea>
             </div>
-        {% endfor %}
-    {% else %}
-        <p>No tweets to display.</p>
-    {% endif %}
+            <button class="btn btn-primary btn-sm float-end">Postar</button>
+          </form>
+        </div>
+      </div>
+      
+
+      <!-- Listagem dos posts -->
+      {% for tweet in tweets %}
+      <div class="card mb-3 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-2">
+            <img src="{% static 'img/default-avatar.png' %}" class="rounded-circle me-2" width="40" alt="Avatar">
+            <div>
+              <strong>{{ tweet.user.username }}</strong>
+              <div class="small text-muted">{{ tweet.created_at|date:"d/m/Y H:i" }}</div>
+            </div>
+          </div>
+          <p class="card-text">{{ tweet.content }}</p>
+          <div><a href="{% url 'user_profile' tweet.user.username %}"></a>
+           <a href="{% url 'user_profile' tweet.user.username %}">Ver detalhes</a>
+            <span class="badge bg-light text-dark">{{ tweet.likes.count }} ❤️</span>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="alert alert-info">Nenhum post ainda. Seja o primeiro a postar!</div>
+      {% endfor %}
+    </div>
+
+    <!-- Sidebar direita (Sugestões) -->
+    <div class="col-lg-3 mb-4 d-none d-lg-block">
+      <div class="card shadow-sm mb-3">
+        <div class="card-body">
+          <h6 class="card-title">Sugestões para seguir</h6>
+          {% for u in suggested_users %}
+            <div class="d-flex align-items-center mb-2">
+              <img src="{% static 'img/default-avatar.png' %}" class="rounded-circle me-2" width="32" alt="">
+              <div>
+                <strong>{{ u.username }}</strong>
+                <a href="{% url 'user_profile' u.username %}" class="btn btn-outline-primary btn-xs btn-sm ms-2">Ver</a>
+              </div>
+            </div>
+          {% empty %}
+            <div class="text-muted small">Nenhuma sugestão no momento.</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

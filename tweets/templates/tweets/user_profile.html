@@ -1,44 +1,71 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h2>Perfil de {{ profile_user.username }}</h2>
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <div class="card shadow-sm p-4 mb-4">
+            <div class="d-flex align-items-center mb-3">
+                <img src="{% static 'img/Denis.jpg' %}" class="rounded-circle mr-3" width="72" height="72" alt="Avatar">
+                <div>
+                    <h2 class="mb-0" style="font-weight:600; font-size:2.2rem;">{{ profile_user.username|capfirst }}</h2>
+                    {% if profile_user != request.user %}
+                    <button id="follow-btn" data-username="{{ profile_user.username }}" class="btn btn-outline-primary btn-sm mt-2">
+                        {% if is_following %}
+                            Deixar de seguir
+                        {% else %}
+                            Seguir
+                        {% endif %}
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row text-center mb-3">
+                <div class="col-6">
+                    <span class="d-block" style="font-size:1.4rem; font-weight:600;">{{ followers_count }}</span>
+                    <a href="{% url 'followers_list' profile_user.username %}" class="text-muted small">Seguidores</a>
+                </div>
+                <div class="col-6">
+                    <span class="d-block" style="font-size:1.4rem; font-weight:600;">{{ following_count }}</span>
+                    <span class="text-muted small">Seguindo</span>
+                </div>
+            </div>
+            <hr>
+            <h5 class="mb-3" style="font-weight:500;">Publicações recentes</h5>
+            {% if tweets %}
+            <ul class="list-group list-group-flush">
+                {% for tweet in tweets %}
+                <li class="list-group-item">
+                    <span class="font-weight-bold">{{ tweet.content }}</span>
+                    <br>
+                    <span class="text-muted small">{{ tweet.created_at|date:"d/m/Y H:i" }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <div class="alert alert-info mb-0">Nenhuma publicação ainda.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 
 {% if profile_user != request.user %}
-    <button id="follow-btn" data-username="{{ profile_user.username }}">
-        {% if is_following %}
-            Deixar de seguir
-        {% else %}
-            Seguir
-        {% endif %}
-    </button>
-{% endif %}
-
-<p>Seguidores: <a href="{% url 'followers_list' profile_user.username %}">{{ followers_count }}</a></p>
-<p>Seguindo: {{ following_count }}</p>
-
-<ul>
-    {% for tweet in tweets %}
-        <li>{{ tweet.content }}</li>
-    {% endfor %}
-</ul>
-
-{% if profile_user != request.user %}
-    <script>
-        document.getElementById('follow-btn').addEventListener('click', function() {
-            const username = this.getAttribute('data-username');
-            fetch("{% url 'follow_user_by_username' username=profile_user.username %}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-            })
-            .then(response => {
-                if (response.redirected) {
-                    window.location.href = response.url;
-                }
-            });
+<script>
+    document.getElementById('follow-btn').addEventListener('click', function() {
+        const username = this.getAttribute('data-username');
+        fetch("{% url 'follow_user_by_username' username=profile_user.username %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+        })
+        .then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
         });
-    </script>
+    });
+</script>
 {% endif %}
 {% endblock %}

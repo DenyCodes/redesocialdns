@@ -1,43 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Twitter Clone{% endblock %}</title>
+    <title>{% block title %}ConnectNow{% endblock %}</title>
     {% load static %}
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+    <style>
+        body { font-family: 'Poppins', Arial, sans-serif; background: #f5f6fa; }
+        .navbar { background-color: #111 !important; }
+        .navbar-brand { font-weight: bold; color: #0074D9 !important; font-size: 2rem; letter-spacing: 1px; }
+        .nav-item {  font-size: 99%;}
+        .nav-link, .navbar-nav .nav-link.active { color: #f5f6fa !important;  }
+        .nav-link:hover { color: #0074D9 !important; }
+        .btn-signup { background: #0074D9; color: #fff !important; border-radius: 24px; padding: 0.4rem 1.4rem; font-weight: 600; }
+        .btn-signup:hover { background: #005fa3; color: #fff !important; }
+        .footer-custom { background: #111; color: #aaa; }
+        .card { border-radius: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    </style>
 </head>
 <body>
-    <header class="bg-dark text-white py-3">
-        <div class="container">
-            <h1 class="h3">Social</h1>
-            <nav class="navbar navbar-expand-lg navbar-dark">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'feed' %}">Feed</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'create_tweet' %}">Create Tweet</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-                    {% if request.user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'user_profile' request.user.username %}">Meu Perfil</a></li>
-                    {% else %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Login</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary ml-2" href="{% url 'account_signup' %}">Cadastre-se</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </nav>
-        </div>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'feed' %}">ConnectNow</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarConnect" aria-controls="navbarConnect" aria-expanded="false" aria-label="Alternar navegação">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarConnect">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'feed' %}">Feed</a></li>
+                        {% if request.user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'create_tweet' %}">Postar</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'user_profile' request.user.username %}">Meu Perfil</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Sair</a></li>
+                        {% endif %}
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        {% if not request.user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Entrar</a></li>
+                        <li class="nav-item">
+                            <a class="btn btn-signup ml-2" href="{% url 'account_signup' %}">Cadastre-se</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
-    <main class="container mt-4">
+    <main class="container py-4">
         {% block content %}
         {% endblock %}
     </main>
-    <footer class="footer-custom">
-        <div class="container">
-            <p>&copy; 2025 Social</p>
+    <footer class="footer-custom py-3 mt-5">
+        <div class="container text-center">
+            <small>&copy; 2025 ConnectNow. Desenvolvido por Denis.</small>
         </div>
     </footer>
     <!-- Bootstrap JS and dependencies -->

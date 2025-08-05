@@ -3,12 +3,40 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Login</h2>
-    <form method="post" action="{% url 'account_login' %}">
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 70vh;">
+  <div class="card shadow" style="width: 100%; max-width: 400px;">
+    <div class="card-body">
+      <h2 class="card-title mb-4 text-center">Entrar na sua conta</h2>
+      <form method="post" action="{% url 'account_login' %}">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger">
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+        <div class="mb-3">
+          {{ form.login.label_tag }}
+          {{ form.login }}
+          {% if form.login.errors %}
+            <div class="text-danger small">{{ form.login.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="mb-3">
+          {{ form.password.label_tag }}
+          {{ form.password }}
+          {% if form.password.errors %}
+            <div class="text-danger small">{{ form.password.errors }}</div>
+          {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Entrar</button>
+      </form>
+      <div class="mt-3 text-center">
+        <small>
+          Não tem conta?
+          <a href="{% url 'account_signup' %}">Cadastre-se</a>
+        </small>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
