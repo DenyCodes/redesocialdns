@@ -1,29 +1,29 @@
 {% extends "base.html" %}
-
-{% block title %}Login{% endblock %}
+{% load widget_tweaks %}
+{% block title %}Entrar{% endblock %}
 
 {% block content %}
-<div class="container d-flex align-items-center justify-content-center" style="min-height: 70vh;">
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
   <div class="card shadow" style="width: 100%; max-width: 400px;">
     <div class="card-body">
-      <h2 class="card-title mb-4 text-center">Entrar na sua conta</h2>
+      <h2 class="card-title mb-4 text-center" style="font-size:2.2rem; font-weight:600;">Entrar na sua conta</h2>
       <form method="post" action="{% url 'account_login' %}">
         {% csrf_token %}
         {% if form.non_field_errors %}
-          <div class="alert alert-danger">
+          <div class="alert alert-danger mb-2">
             {{ form.non_field_errors }}
           </div>
         {% endif %}
         <div class="mb-3">
-          {{ form.login.label_tag }}
-          {{ form.login }}
+          <label for="{{ form.login.id_for_label }}" class="form-label">E-mail ou Usuário</label>
+          {{ form.login|add_class:"form-control" }}
           {% if form.login.errors %}
             <div class="text-danger small">{{ form.login.errors }}</div>
           {% endif %}
         </div>
         <div class="mb-3">
-          {{ form.password.label_tag }}
-          {{ form.password }}
+          <label for="{{ form.password.id_for_label }}" class="form-label">Senha</label>
+          {{ form.password|add_class:"form-control" }}
           {% if form.password.errors %}
             <div class="text-danger small">{{ form.password.errors }}</div>
           {% endif %}

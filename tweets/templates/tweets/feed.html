@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-
 {% block content %}
 <div class="container py-4">
   <div class="row">
@@ -8,7 +7,7 @@
     <div class="col-lg-3 mb-4 d-none d-lg-block">
       <div class="card shadow-sm">
         <div class="card-body text-center">
-          <img src="{% static 'img/default-avatar.png' %}" class="rounded-circle mb-2" width="80" alt="Avatar">
+          <img src="{% static 'img/Denis.jpg' %}" class="rounded-circle mb-2" width="80" alt="Avatar">
           <h5 class="card-title mb-0">{{ user.username }}</h5>
           <div class="small text-muted">@{{ user.email }}</div>
           <hr>
@@ -39,7 +38,7 @@
       <div class="card mb-3 shadow-sm">
         <div class="card-body">
           <div class="d-flex align-items-center mb-2">
-            <img src="{% static 'img/default-avatar.png' %}" class="rounded-circle me-2" width="40" alt="Avatar">
+            <img src="{% static 'img/Denis.jpg' %}" class="rounded-circle me-2" width="40" alt="Avatar">
             <div>
               <strong>{{ tweet.user.username }}</strong>
               <div class="small text-muted">{{ tweet.created_at|date:"d/m/Y H:i" }}</div>
@@ -64,7 +63,7 @@
           <h6 class="card-title">Sugestões para seguir</h6>
           {% for u in suggested_users %}
             <div class="d-flex align-items-center mb-2">
-              <img src="{% static 'img/default-avatar.png' %}" class="rounded-circle me-2" width="32" alt="">
+              <img src="{% static 'img/Denis.jpg' %}" class="rounded-circle me-2" width="32" alt="">
               <div>
                 <strong>{{ u.username }}</strong>
                 <a href="{% url 'user_profile' u.username %}" class="btn btn-outline-primary btn-xs btn-sm ms-2">Ver</a>

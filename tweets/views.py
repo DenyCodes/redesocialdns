@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from .models import Tweet, Follow
 from .forms import TweetForm
 from django.contrib.auth import logout
+from tweets.models import Usuario
+
 
 @login_required
 def home(request):
@@ -26,8 +28,11 @@ def user_profile(request, username):
     is_following = Follow.objects.filter(user=request.user, following=user).exists()
     followers_count = user.followers.count()
     following_count = user.following.count()
+
+    usuario = Usuario.objects.filter(nome=user.username).first()
     return render(request, 'tweets/user_profile.html', {
-        'profile_user': user, 
+        'profile_user': user,
+        'usuario': usuario,   
         'tweets': tweets,
         'is_following': is_following,
         'followers_count': followers_count,

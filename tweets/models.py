@@ -31,3 +31,13 @@ class TweetForm(forms.ModelForm):
     class Meta:
         model = Tweet
         fields = ['content']
+class Usuario(models.Model):
+    nome = models.CharField(max_length=100)
+    foto = models.ImageField(
+        upload_to='usuarios/', 
+        default='usuarios/Denis.jpeg'
+    )
+    # outros campos do usuário...
+
+    def __str__(self):
+        return self.nome

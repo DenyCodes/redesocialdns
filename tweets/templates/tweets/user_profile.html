@@ -7,6 +7,7 @@
         <div class="card shadow-sm p-4 mb-4">
             <div class="d-flex align-items-center mb-3">
                 <img src="{% static 'img/Denis.jpg' %}" class="rounded-circle mr-3" width="72" height="72" alt="Avatar">
+
                 <div>
                     <h2 class="mb-0" style="font-weight:600; font-size:2.2rem;">{{ profile_user.username|capfirst }}</h2>
                     {% if profile_user != request.user %}
