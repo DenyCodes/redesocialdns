@@ -5,7 +5,8 @@ from .models import Tweet, Follow
 from .forms import TweetForm
 from django.contrib.auth import logout
 from tweets.models import Usuario
-
+from .forms import FotoPerfilForm
+from django.contrib.auth.decorators import login_required
 
 @login_required
 def home(request):
@@ -42,12 +43,21 @@ def user_profile(request, username):
 @login_required
 def feed(request):
     user = request.user
-    following_users = user.following.values_list('following', flat=True)
     tweets = Tweet.objects.all().order_by('-created_at')
     my_tweets = Tweet.objects.filter(user=user)
     tweets = tweets | my_tweets
     tweets = tweets.order_by('-created_at')
-    return render(request, 'tweets/feed.html', {'tweets': tweets})
+
+    # Montar um dicionário {username: Usuario}
+    autores = {u.nome: u for u in Usuario.objects.all()}
+    # Pega o Usuario do usuário logado
+    usuario = Usuario.objects.filter(nome=user.username).first()
+
+    return render(request, 'tweets/feed.html', {
+        'tweets': tweets,
+        'usuario': usuario,
+        'autores': autores,
+    })
 
 @login_required
 def create_tweet(request):
@@ -87,3 +97,16 @@ def followers_list(request, username):
     user = get_object_or_404(User, username=username)
     followers = user.followers.all()
     return render(request, 'tweets/followers_list.html', {'profile_user': user, 'followers': followers})
+
+
+@login_required
+def trocar_foto(request):
+    usuario = Usuario.objects.filter(nome=request.user.username).first()
+    if request.method == 'POST':
+        form = FotoPerfilForm(request.POST, request.FILES, instance=usuario)
+        if form.is_valid():
+            form.save()
+            return redirect('user_profile', username=request.user.username)
+    else:
+        form = FotoPerfilForm(instance=usuario)
+    return render(request, 'tweets/trocar_foto.html', {'form': form})

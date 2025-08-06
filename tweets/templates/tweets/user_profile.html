@@ -1,12 +1,20 @@
+
 {% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
+<p>usuario: {{ usuario }}</p>
+<p>foto: {{ usuario.foto }}</p>
+<p>foto url: {{ usuario.foto.url }}</p>
+
 <div class="row justify-content-center">
     <div class="col-md-7 col-lg-6">
         <div class="card shadow-sm p-4 mb-4">
             <div class="d-flex align-items-center mb-3">
-                <img src="{% static 'img/Denis.jpg' %}" class="rounded-circle mr-3" width="72" height="72" alt="Avatar">
+                {% if request.user.username == profile_user.username %}
+            <a href="{% url 'trocar_foto' %}" class="btn btn-outline-secondary btn-sm">Trocar foto do perfil</a>
+            {% endif %}
+                    <img src="{{ usuario.foto.url }}" class="rounded-circle mb-2" width="80" alt="Avatar">
 
                 <div>
                     <h2 class="mb-0" style="font-weight:600; font-size:2.2rem;">{{ profile_user.username|capfirst }}</h2>

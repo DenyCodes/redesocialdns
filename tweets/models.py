@@ -35,9 +35,8 @@ class Usuario(models.Model):
     nome = models.CharField(max_length=100)
     foto = models.ImageField(
         upload_to='usuarios/', 
-        default='usuarios/Denis.jpeg'
+        default='usuarios/Denis.jpg'
     )
-    # outros campos do usuário...
 
     def __str__(self):
         return self.nome
