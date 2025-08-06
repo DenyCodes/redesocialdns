@@ -70,8 +70,6 @@ WSGI_APPLICATION = "social.wsgi.application"
 import dj_database_url
 import os
 
-import dj_database_url
-
 if os.environ.get('DATABASE_URL'):
     # Railway/produção
     DATABASES = {
@@ -134,4 +132,3 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 # Configuração do django-crispy-forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-DEBUG = True
