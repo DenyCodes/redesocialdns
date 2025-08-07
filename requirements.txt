@@ -58,3 +58,4 @@ psycopg2-binary
 dj-database-url
 gunicorn
 django-widget-tweaks
+feedparser
