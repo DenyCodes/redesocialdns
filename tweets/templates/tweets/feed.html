@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static dict_get %}
+{% load static %}
 {% block content %}
 
 <div class="container py-4">
@@ -8,13 +8,7 @@
     <div class="col-lg-3 mb-4 d-none d-lg-block">
       <div class="card shadow-sm">
         <div class="card-body text-center">
-          {% if usuario and usuario.foto %}
-            <img src="https://api.dicebear.com/9.x/adventurer/svg?seed={{ user.username }}" width="80" class="rounded-circle" alt="Avatar">
-
-          {% else %}
-            <img src="https://api.dicebear.com/9.x/adventurer/svg?seed={{ user.username }}" width="80" class="rounded-circle" alt="Avatar">
-
-          {% endif %}
+          <img src="https://api.dicebear.com/9.x/adventurer/svg?seed={{ user.username }}" width="80" class="rounded-circle" alt="Avatar">
           <h5 class="card-title mb-0">{{ user.username }}</h5>
           <div class="small text-muted">@{{ user.email }}</div>
           <hr>
@@ -45,13 +39,7 @@
       <div class="card mb-3 shadow-sm">
         <div class="card-body">
           <div class="d-flex align-items-center mb-2">
-            {% with autor=autores|dict_get:tweet.user.username %}
-              {% if autor and autor.foto %}
-<img src="https://api.dicebear.com/9.x/adventurer/svg?seed={{ user.username }}" width="80" class="rounded-circle" alt="Avatar">
-              {% else %}
-<img src="https://api.dicebear.com/9.x/adventurer/svg?seed={{ user.username }}" width="80" class="rounded-circle" alt="Avatar">
-              {% endif %}
-            {% endwith %}
+            <img src="https://api.dicebear.com/9.x/adventurer/svg?seed={{ tweet.user.username }}" width="80" class="rounded-circle" alt="Avatar">
             <div>
               <strong>{{ tweet.user.username }}</strong>
               <div class="small text-muted">{{ tweet.created_at|date:"d/m/Y H:i" }}</div>
@@ -76,7 +64,7 @@
           <h6 class="card-title">Sugestões para seguir</h6>
           {% for u in suggested_users %}
             <div class="d-flex align-items-center mb-2">
-<img src="https://api.dicebear.com/9.x/adventurer/svg?seed={{ user.username }}" width="80" class="rounded-circle" alt="Avatar">
+              <img src="https://api.dicebear.com/9.x/adventurer/svg?seed={{ u.username }}" width="32" class="rounded-circle me-2" alt="Avatar">
               <div>
                 <strong>{{ u.username }}</strong>
                 <a href="{% url 'user_profile' u.username %}" class="btn btn-outline-primary btn-xs btn-sm ms-2">Ver</a>
