@@ -59,22 +59,24 @@
 
     <!-- Sidebar direita (Sugestões) -->
     <div class="col-lg-3 mb-4 d-none d-lg-block">
-      <div class="card shadow-sm mb-3">
-        <div class="card-body">
-          <h6 class="card-title">Sugestões para seguir</h6>
-          {% for u in suggested_users %}
-            <div class="d-flex align-items-center mb-2">
-              <img src="https://api.dicebear.com/9.x/adventurer/svg?seed={{ u.username }}" width="32" class="rounded-circle me-2" alt="Avatar">
-              <div>
-                <strong>{{ u.username }}</strong>
-                <a href="{% url 'user_profile' u.username %}" class="btn btn-outline-primary btn-xs btn-sm ms-2">Ver</a>
-              </div>
-            </div>
-          {% empty %}
-            <div class="text-muted small">Nenhuma sugestão no momento.</div>
-          {% endfor %}
-        </div>
-      </div>
+      <!-- Sidebar direita (Notícias) -->
+<div class="card shadow-sm mb-3">
+  <div class="card-body">
+    <h6 class="card-title">Notícias Atualizadas</h6>
+    <ul class="list-unstyled small">
+      {% for noticia in noticias %}
+        <li class="mb-1">
+          <a href="{{ noticia.link }}" target="_blank" rel="noopener" class="text-decoration-none">
+            {{ noticia.titulo }}
+          </a>
+        </li>
+      {% empty %}
+        <li>Nenhuma notícia no momento.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
     </div>
   </div>
 </div>

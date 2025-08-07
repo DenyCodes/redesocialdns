@@ -7,6 +7,7 @@ from django.contrib.auth import logout
 from tweets.models import Usuario
 from .forms import FotoPerfilForm
 from django.contrib.auth.decorators import login_required
+import feedparser
 
 @login_required
 def home(request):
@@ -44,6 +45,7 @@ def user_profile(request, username):
 def feed(request):
     user = request.user
     tweets = Tweet.objects.all().order_by('-created_at')
+    noticias = get_noticias()
     my_tweets = Tweet.objects.filter(user=user)
     tweets = tweets | my_tweets
     tweets = tweets.order_by('-created_at')
@@ -57,6 +59,7 @@ def feed(request):
         'tweets': tweets,
         'usuario': usuario,
         'autores': autores,
+        'noticias': noticias,
     })
 
 @login_required
@@ -110,3 +113,16 @@ def trocar_foto(request):
     else:
         form = FotoPerfilForm(instance=usuario)
     return render(request, 'tweets/trocar_foto.html', {'form': form})
+
+
+def get_noticias():
+    # Você pode mudar o feed para outro portal se quiser
+    feed_url = "https://g1.globo.com/rss/g1/"
+    feed = feedparser.parse(feed_url)
+    noticias = []
+    for entry in feed.entries[:5]:  # pega as 5 primeiras
+        noticias.append({
+            'titulo': entry.title,
+            'link': entry.link
+        })
+    return noticias
