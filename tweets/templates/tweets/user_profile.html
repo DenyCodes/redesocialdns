@@ -3,9 +3,6 @@
 {% load static %}
 
 {% block content %}
-<p>usuario: {{ usuario }}</p>
-<p>foto: {{ usuario.foto }}</p>
-<p>foto url: {{ usuario.foto.url }}</p>
 
 <div class="row justify-content-center">
     <div class="col-md-7 col-lg-6">
@@ -14,7 +11,7 @@
                 {% if request.user.username == profile_user.username %}
             <a href="{% url 'trocar_foto' %}" class="btn btn-outline-secondary btn-sm">Trocar foto do perfil</a>
             {% endif %}
-<img src="https://api.dicebear.com/7.x/pixel-art/svg?seed={{ user.username }}" width="80" class="rounded-circle" alt="Avatar">
+            <img src="https://api.dicebear.com/9.x/adventurer/svg?seed={{ user.username }}" width="80" class="rounded-circle" alt="Avatar">
 
                 <div>
                     <h2 class="mb-0" style="font-weight:600; font-size:2.2rem;">{{ profile_user.username|capfirst }}</h2>
