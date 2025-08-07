@@ -4,7 +4,7 @@
 
 <div class="container py-4">
   <div class="row">
-    <!-- Sidebar esquerda -->
+    <!-- Sidebar esquerda: Perfil do usuário logado -->
     <div class="col-lg-3 mb-4 d-none d-lg-block">
       <div class="card shadow-sm">
         <div class="card-body text-center">
@@ -33,7 +33,6 @@
         </div>
       </div>
       
-
       <!-- Listagem dos posts -->
       {% for tweet in tweets %}
       <div class="card mb-3 shadow-sm">
@@ -57,26 +56,44 @@
       {% endfor %}
     </div>
 
-    <!-- Sidebar direita (Sugestões) -->
+    <!-- Sidebar direita (Sugestões + Notícias) -->
     <div class="col-lg-3 mb-4 d-none d-lg-block">
-      <!-- Sidebar direita (Notícias) -->
-<div class="card shadow-sm mb-3">
-  <div class="card-body">
-    <h6 class="card-title">Notícias Atualizadas</h6>
-    <ul class="list-unstyled small">
-      {% for noticia in noticias %}
-        <li class="mb-1">
-          <a href="{{ noticia.link }}" target="_blank" rel="noopener" class="text-decoration-none">
-            {{ noticia.titulo }}
-          </a>
-        </li>
-      {% empty %}
-        <li>Nenhuma notícia no momento.</li>
-      {% endfor %}
-    </ul>
-  </div>
-</div>
-
+      <!-- Sugestões para seguir -->
+      <div class="card shadow-sm mb-3">
+        <div class="card-body">
+          <h6 class="card-title">Sugestões para seguir</h6>
+          {% for u in suggested_users %}
+            <div class="d-flex align-items-center mb-2">
+              <img src="https://api.dicebear.com/9.x/adventurer/svg?seed={{ u.username }}" width="32" class="rounded-circle me-2" alt="Avatar">
+              <div>
+                <strong>{{ u.username }}</strong>
+                <a href="{% url 'user_profile' u.username %}" class="btn btn-outline-primary btn-xs btn-sm ms-2">Ver</a>
+              </div>
+            </div>
+          {% empty %}
+            <div class="text-muted small">Nenhuma sugestão no momento.</div>
+          {% endfor %}
+        </div>
+      </div>
+      <!-- Notícias Atualizadas -->
+      <div class="card shadow-sm mb-3">
+        <div class="card-body">
+          <h5 class="card-title text-center mb-3" style="font-weight:600;">📰 Notícias Atualizadas</h5>
+          {% if noticias %}
+            <div>
+              {% for noticia in noticias %}
+                <div class="p-2 mb-2 border rounded" style="background: #f9f9f9;">
+                  <a href="{{ noticia.link }}" target="_blank" rel="noopener" class="fw-bold text-dark" style="text-decoration:none;">
+                    {{ noticia.titulo }}
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="text-muted text-center">Nenhuma notícia no momento.</div>
+          {% endif %}
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -33,7 +33,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'crispy_bootstrap4',
-    'widget_tweaks'
+    'widget_tweaks',
+    'feedparser'
 ]
 
 MIDDLEWARE = [
